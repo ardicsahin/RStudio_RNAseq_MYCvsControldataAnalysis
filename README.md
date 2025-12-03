@@ -40,9 +40,15 @@ GSEA Dot Plot: Pathway enrichment split by activation status.
 
 GO Bar Plot: Top biological processes.
 
+![GO Bar Plot Plot](ee6522f8-b69c-45d6-8930-98d9763af93b.png)
+
 Upset Plot: Intersections between gene sets.
 
+![Upset Plot](c9ec5a8d-84d8-49d6-822e-8157f47b2ffb.png)
+
 Network Plots: emapplot and cnetplot for systems biology visualization.
+
+![Network Plot](01775d95-519d-423d-a127-4046800758d8.png)
 
 
 
