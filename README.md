@@ -4,22 +4,45 @@ This code performs a standard Differential Expression (DE) analysis pipeline, ta
 
 ![Flowchart of Data Pipeline](MYCFlowchart.jpg)
 
-RNA-Seq Analysis & Heatmap Visualization PipelineOverviewThis R script acts as a downstream analysis and visualization tool for RNA-Seq data. It takes raw feature counts (typically from Galaxy/FeatureCounts), performs differential expression analysis using DESeq2, and generates high-quality heatmaps to visualize expression patterns between MYC (Treatment) and CN (Control) groups.Key FeaturesStatistical Analysis: Uses the Wald test (via DESeq2) to identify differentially expressed genes.Global Visualization: Generates a heatmap of all significantly differentially expressed genes ($P_{adj} < 0.05$) to show broad expression trends.Targeted Visualization: Generates a focused heatmap of the Top 20 most significant genes using Log2-transformed counts for precise comparison.System RequirementsR VersionR >= 4.0.0Required LibrariesEnsure the following packages are installed via CRAN or Bioconductor:R# Data Manipulation & plotting
-install.packages(c("readr", "data.table", "ggplot2", "pheatmap"))
+This repository contains a comprehensive bioinformatics R workflow designed to analyze RNA-Seq data. The suite is divided into two analytical modules that process raw feature counts (from Galaxy) to characterize the differences between MYC (Condition) and CN (Control) samples:
 
-. Pre-processing: Reads the specific Galaxy output file.Cleaning:Sets Gene IDs as row names.Removes explicit outlier row 28396 (User-specific artifact).Forces all count data to numeric type and removes NA values.2. Differential Expression (DESeq2)Design: ~ condition (MYC vs CN).Normalization: Uses estimateSizeFactors to account for sequencing depth.
+Module A: Differential Expression & Heatmap Visualization
+Focuses on identifying significant genes and generating publication-quality heatmaps (Global patterns and Top 20 targets).
 
-Filtering: Removes genes with zero counts across all samples.
-Testing: Runs the negative binomial Wald test.3. 
-Visualization 1: Global Significance 
-HeatmapFilter: Selects genes with Adjusted P-value < 0.05.
-Data: Uses normalized counts.
-Scaling: Row-scaled (Z-score) to highlight relative up/down-regulation patterns regardless of absolute expression magnitude.4. Visualization 2: Top 20 Genes HeatmapSelection: Sorts all genes by adjusted p-value and selects the top 20.
+Key Features
+Statistical Model: Uses DESeq2 (Wald test) to identify differentially expressed genes.
+Global Heatmap: Visualizes all significantly differentially expressed genes ($P_{adj} < 0.05$) using row-scaled Z-scores to show relative up/down-regulation.
+Top 20 Heatmap: Sorts genes by statistical significance and plots the top 20 using $Log_2(Counts + 1)$ transformation for precise expression comparison.OutputsDESeq2 
 
-Transformation: Applies $Log_2(Count + 1)$ transformation. This stabilizes variance, making high-expression and low-expression genes comparable on the color scale.UsageSet File Path:Modify the read_csv path in the script to point to your data:RfeatureCountData <- read_csv("/path/to/your/data.csv")
-Verify Outlier Removal:Check line 17 (entrez_rows <- entrez_rows[-28396,]). If using a new dataset, ensure this row index corresponds to the row you intend to remove (e.g., a header or summary statistic), or remove this line if not needed.Run:Execute the script in RStudio. The heatmaps will appear in the "Plots" pane.OutputsDESeq2 
+Object: Stored as dds.Heatmap 1: Global significance patterns.Heatmap 2: Top 20 most significant genes.
 
-Object: Available in the R environment as dds.Plot 1: Heatmap of all significant genes (Row Z-score).Plot 2: Heatmap of top 20 significant genes (Log2 Expression).
+Outputs:
+DESeq2 Object: Stored as dds.
+
+Heatmap 1: Global significance patterns.
+
+Heatmap 2: Top 20 most significant genes.
+
+Module B: Functional Pathway Enrichment
+Moves beyond simple gene lists to identify biological processes using Gene Set Enrichment Analysis (GSEA) and Over-Representation Analysis (ORA).
+
+Key Features
+ID Mapping: Automatically converts Entrez IDs to HUGO Gene Symbols.
+Gene Set Enrichment Analysis (GSEA):Uses a ranked list of all genes (sorted by Log2 Fold Change).Identifies activated vs. suppressed biological processes independent of arbitrary p-value cutoffs.
+Over-Representation Analysis (ORA):Focuses strictly on significantly differentially expressed genes ($P_{adj} < 0.05$).Tests for statistical enrichment of GO terms.
+Network Visualization:Enrichment Map (emapplot): Clusters related pathways into networks.
+Gene-Concept Network (cnetplot): Links specific genes to the biological concepts they drive.
+
+Outputs:
+GSEA Dot Plot: Pathway enrichment split by activation status.
+
+GO Bar Plot: Top biological processes.
+
+Upset Plot: Intersections between gene sets.
+
+Network Plots: emapplot and cnetplot for systems biology visualization.
+
+
 
 
 
