@@ -21,7 +21,11 @@ DESeq2 Object: Stored as dds.
 
 Heatmap 1: Global significance patterns.
 
+![Heatmap](d07d6a61-9801-4db5-acef-d355b514c309.png)
+
 Heatmap 2: Top 20 most significant genes.
+
+![Top 20 Heatmap](d49b8455-e4b9-4aa9-bf5c-bb0147281df3.png)
 
 Module B: Functional Pathway Enrichment
 Moves beyond simple gene lists to identify biological processes using Gene Set Enrichment Analysis (GSEA) and Over-Representation Analysis (ORA).
