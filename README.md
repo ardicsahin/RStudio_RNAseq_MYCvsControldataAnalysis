@@ -36,6 +36,8 @@ Gene-Concept Network (cnetplot): Links specific genes to the biological concepts
 Outputs:
 GSEA Dot Plot: Pathway enrichment split by activation status.
 
+![GSEA Dot Plot]()
+
 GO Bar Plot: Top biological processes.
 
 Upset Plot: Intersections between gene sets.
